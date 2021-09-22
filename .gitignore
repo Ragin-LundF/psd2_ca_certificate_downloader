@@ -1,3 +1,3 @@
 venv
-*.cert
+*.crt
 .idea

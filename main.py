@@ -11,7 +11,7 @@ from cryptography import x509
 from cryptography.hazmat import backends
 from cryptography.hazmat.primitives import serialization
 
-xs2a_client_certs = "xs2a-client-certs.crt"
+psd2_client_certs = "psd2-client-certs.crt"
 
 
 def __config() -> dict:
@@ -38,7 +38,7 @@ def __download_and_save_certificates() -> None:
     """
     countries_list = __countries_list_from_api()
 
-    with open(xs2a_client_certs, 'w') as ca_handler:
+    with open(psd2_client_certs, 'w') as ca_handler:
         for country in countries_list:
             xml_country_data = __download_country_data_as_xml(country)
             trust_svc_provider_list = __get_trust_svc_provider_list(xml_country_data)
@@ -251,8 +251,8 @@ def __remove_old_certs() -> None:
 
     :return: None
     """
-    if os.path.exists(xs2a_client_certs):
-        os.remove(xs2a_client_certs)
+    if os.path.exists(psd2_client_certs):
+        os.remove(psd2_client_certs)
 
 
 def main():
