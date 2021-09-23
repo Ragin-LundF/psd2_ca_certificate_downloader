@@ -1,6 +1,6 @@
 # PSD2 Client Certificate CA Downloader
 
-This tool downloads all granted and valid certificates for webiste authenticaten from https://webgate.ec.europa.eu.
+This tool downloads all granted and valid certificates for webiste authenticaten from https://esignature.ec.europa.eu.
 
 The certificates will be stored in a `.crt` file.
 

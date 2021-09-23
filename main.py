@@ -21,7 +21,7 @@ def __config() -> dict:
     :return: dictionary with configuration data
     """
     return {
-        'api_url': 'https://webgate.ec.europa.eu/tl-browser',
+        'api_url': 'https://esignature.ec.europa.eu/efda/tl-browser',
         'uri_etsi': '{http://uri.etsi.org/02231/v2#}',
         'svc_granted': 'http://uri.etsi.org/TrstSvc/TrustedList/Svcstatus/granted',
         'svc_qc_ca': 'http://uri.etsi.org/TrstSvc/Svctype/CA/QC',
@@ -42,7 +42,8 @@ def __download_and_save_certificates() -> None:
         for country in countries_list:
             xml_country_data = __download_country_data_as_xml(country)
             trust_svc_provider_list = __get_trust_svc_provider_list(xml_country_data)
-            __extract_trust_svc_provider_list(trust_svc_provider_list, ca_handler)
+            if trust_svc_provider_list is not None:
+                __extract_trust_svc_provider_list(trust_svc_provider_list, ca_handler)
 
 
 def __countries_list_from_api() -> []:
@@ -51,7 +52,7 @@ def __countries_list_from_api() -> []:
 
     :return: result of request with countries
     """
-    return requests.get(f"{__config().get('api_url')}/api/search/countries_list").json()['content']
+    return requests.get(f"{__config().get('api_url')}/api/v1/search/countries_list").json()
 
 
 def __download_country_data_as_xml(country: dict) -> ElementTree:
@@ -62,9 +63,8 @@ def __download_country_data_as_xml(country: dict) -> ElementTree:
     :return: XML Element Tree of this country
     """
     logging.info(f"Downloading certificates for [{country['countryName']}]")
-    data_encoded = requests.get(f"{__config().get('api_url')}/api/download/{country['countryCode']}").json()['content']
-    data = base64.b64decode(data_encoded).decode()
-    return ElementTree.fromstring(data)
+    data_xml = requests.get(f"{__config().get('api_url')}/api/v1/browser/download/{country['countryCode']}").content
+    return ElementTree.fromstring(data_xml)
 
 
 def __get_trust_svc_provider_list(xml_data: Element) -> list[Element]:
@@ -74,9 +74,11 @@ def __get_trust_svc_provider_list(xml_data: Element) -> list[Element]:
     :param xml_data:
     :return:
     """
-    return xml_data\
-        .find(__xml_element_full_name('TrustServiceProviderList'))\
-        .findall(__xml_element_full_name('TrustServiceProvider'))
+    tsp_svc_list = xml_data\
+        .find(__xml_element_full_name('TrustServiceProviderList'))
+    if tsp_svc_list is not None:
+        return tsp_svc_list\
+            .findall(__xml_element_full_name('TrustServiceProvider'))
 
 
 def __extract_trust_svc_provider_list(trust_svc_provider_list: list[Element], ca_handler: TextIO) -> None:
