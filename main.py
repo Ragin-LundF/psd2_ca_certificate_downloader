@@ -66,7 +66,7 @@ def __download_country_data_as_xml(country: dict) -> ElementTree:
     return ElementTree.fromstring(data_xml)
 
 
-def __get_trust_svc_provider_list(xml_data: Element) -> list[Element]:
+def __get_trust_svc_provider_list(xml_data: 'Element') -> 'list[Element]':
     """
     Returns all TrustServiceProvider from the TrustServiceProviderList
 
@@ -80,7 +80,7 @@ def __get_trust_svc_provider_list(xml_data: Element) -> list[Element]:
             .findall(__xml_element_full_name('TrustServiceProvider'))
 
 
-def __extract_trust_svc_provider_list(trust_svc_provider_list: list[Element], ca_handler: TextIO) -> None:
+def __extract_trust_svc_provider_list(trust_svc_provider_list: 'list[Element]', ca_handler: 'TextIO') -> 'None':
     """
     Extract all TSP Services from TSPServices.TSPService element
 
@@ -159,7 +159,7 @@ def __extract_trst_svc_prvdr_type_id(tsp_svc: Element) -> str:
         .text
 
 
-def __extract_additional_service_info_urls(tsp_svc: Element) -> list[str]:
+def __extract_additional_service_info_urls(tsp_svc: 'Element') -> 'list[str]':
     """
     Extraxt the additional service URLs as a proper list
 
@@ -191,7 +191,7 @@ def __extract_additional_service_info_urls(tsp_svc: Element) -> list[str]:
     return svc_info_url_list
 
 
-def __extract_digital_ids(tsp_svc: Element) -> list[Element]:
+def __extract_digital_ids(tsp_svc: 'Element') -> 'list[Element]':
     """
     Extract DigitalID from ServiceInformation.ServiceDigitalIdentity
 
@@ -204,7 +204,7 @@ def __extract_digital_ids(tsp_svc: Element) -> list[Element]:
         .findall(__xml_element_full_name('DigitalId'))
 
 
-def __save_certificate(tsp_name: str, digital_ids: list[Element], ca_handler: TextIO) -> None:
+def __save_certificate(tsp_name: str, digital_ids: 'list[Element]', ca_handler: 'TextIO') -> 'None':
     for digital_id in digital_ids:
         certificates = digital_id.findall(__xml_element_full_name('X509Certificate'))
         for certificate in certificates:
