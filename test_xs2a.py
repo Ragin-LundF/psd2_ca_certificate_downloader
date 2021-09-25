@@ -20,4 +20,5 @@ def test_xs2a_download():
         elif line == end_cert:
             end_cnt = end_cnt+1
 
+    assert begin_cnt > 50
     assert begin_cnt == end_cnt
