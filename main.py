@@ -256,12 +256,20 @@ def __remove_old_certs() -> None:
         os.remove(psd2_client_certs)
 
 
-def main():
+def run() -> None:
+    """
+    Run method to be able to test without importing main()
+
+    :return: None
+    """
     logging.basicConfig(level=logging.INFO)
     __remove_old_certs()
     __download_and_save_certificates()
 
 
+def main():
+    run()
+
+
 if __name__ == '__main__':
     main()
-
