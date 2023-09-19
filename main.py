@@ -20,7 +20,7 @@ def __config() -> dict:
     :return: dictionary with configuration data
     """
     return {
-        'api_url': 'https://esignature.ec.europa.eu/efda/tl-browser',
+        'api_url': 'https://eidas.ec.europa.eu/efda/tl-browser',
         'uri_etsi': '{http://uri.etsi.org/02231/v2#}',
         'svc_granted': 'http://uri.etsi.org/TrstSvc/TrustedList/Svcstatus/granted',
         'svc_qc_ca': 'http://uri.etsi.org/TrstSvc/Svctype/CA/QC',
